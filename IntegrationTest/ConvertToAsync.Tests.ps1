@@ -25,7 +25,15 @@ Describe 'ConvertToAsync' {
         }
 
         Function Get-OutputProbed {
-            ./ffmpeg/ffprobe.exe -hide_banner -v quiet -print_format json -show_format -show_streams ./IntegrationTest/converted.wav ` | ConvertFrom-Json
+            if ($IsWindows) {
+                $info = ./ffmpeg/ffprobe.exe -hide_banner -v quiet -print_format json -show_format -show_streams ./IntegrationTest/converted.wav `
+            }
+
+            if ($IsLinux) {
+                $info = ./ffmpeg/ffprobe -hide_banner -v quiet -print_format json -show_format -show_streams ./IntegrationTest/converted.wav `
+            }
+
+            $info | ConvertFrom-Json
         }
     }
 
