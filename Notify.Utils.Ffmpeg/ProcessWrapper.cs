@@ -11,7 +11,7 @@ namespace Notify.Utils.Ffmpeg
     {
         void Start(ProcessStartInfo processStartInfo);
 
-        Task WriteInput(Stream input, CancellationToken cancellationToken = default);
+        Task WriteInputAsync(Stream input, CancellationToken cancellationToken = default);
     }
 
     internal class ProcessWrapper : IProcessWrapper
@@ -23,7 +23,7 @@ namespace Notify.Utils.Ffmpeg
             process = Process.Start(processStartInfo);
         }
 
-        public Task WriteInput(Stream input, CancellationToken cancellationToken = default)
+        public Task WriteInputAsync(Stream input, CancellationToken cancellationToken = default)
         {
             return input.CopyToAsync(process.StandardInput.BaseStream, cancellationToken);
         }

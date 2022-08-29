@@ -52,8 +52,17 @@ namespace Notify.Utils.Ffmpeg
             };
 
             var processWrapper = processWrapperFactory();
-            processWrapper.Start(ffmpegStartInfo);
-            await processWrapper.WriteInput(input, cancellationToken);
+
+            try
+            {
+                processWrapper.Start(ffmpegStartInfo);
+                await processWrapper.WriteInputAsync(input, cancellationToken);
+            }
+            catch (Exception ex) // something more concrete should be used
+            {
+                throw new ConversionFailedException(ex);
+            }
+            
 
             return null;
         }

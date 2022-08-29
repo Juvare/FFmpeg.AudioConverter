@@ -131,14 +131,32 @@ namespace Notify.Utils.Ffmpeg.Tests
         }
 
         [Test]
-        public async Task CopyTo_WritesInputStreamToFfmpegProcess()
+        public async Task ConvertTo_WritesInputStreamToFfmpegProcess()
         {
             var converter = new AudioConverter(fileSystem, PlatformID.Win32NT, () => processWrapper);
             var stream = Substitute.For<Stream>();
 
             await converter.ConvertTo(stream, InputFormat.WAV);
 
-            await processWrapper.Received().WriteInput(stream, Arg.Any<CancellationToken>());
+            await processWrapper.Received().WriteInputAsync(stream, Arg.Any<CancellationToken>());
+        }
+
+        [Test]
+        public void ConvertTo_WhenStartingProcessFails_ThrowsConversionFailedException()
+        {
+            processWrapper.When(p => p.Start(Arg.Any<ProcessStartInfo>())).Throw(new Exception("test"));
+            var converter = new AudioConverter(fileSystem, PlatformID.Win32NT, () => processWrapper);
+
+            Assert.ThrowsAsync<ConversionFailedException>(() => converter.ConvertTo(Substitute.For<Stream>(), InputFormat.WAV));
+        }
+
+        [Test]
+        public void ConvertTo_WhenWrittingToProcessFails_ThrowsConversionFailedException()
+        {
+            processWrapper.WriteInputAsync(Arg.Any<Stream>(), Arg.Any<CancellationToken>()).Returns(Task.FromException(new Exception("test")));
+            var converter = new AudioConverter(fileSystem, PlatformID.Win32NT, () => processWrapper);
+
+            Assert.ThrowsAsync<ConversionFailedException>(() => converter.ConvertTo(Substitute.For<Stream>(), InputFormat.WAV));
         }
     }
 }
