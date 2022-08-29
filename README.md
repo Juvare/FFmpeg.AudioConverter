@@ -18,3 +18,6 @@ Install-Module -Name Pester -Force # if not already installed or old version
 Import-Module Pester
 Invoke-Pester -Show All
 ```
+
+## Create nuget
+`dotnet pack --configuration Release ./Notify.Utils.Ffmpeg/Notify.Utils.Ffmpeg.csproj -p:Version=${NUGET_VERSION}`
