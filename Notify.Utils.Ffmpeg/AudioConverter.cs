@@ -4,7 +4,15 @@ namespace Notify.Utils.Ffmpeg
 {
     public interface IAudioConverter
     {
-        Task<Stream> ConvertTo(Stream input, InputFormat format, CancellationToken cancellationToken = default);
+        /// <summary>
+        /// Converts input stream to 8K Sample Rate, Mono channel MuLaw encoded wav file.
+        /// Output stream disposal is relegated to consumer
+        /// </summary>
+        /// <param name="input">Input Audio stream</param>
+        /// <param name="format">Input audio format. Use <see cref="InputFormat.Parse(string)"/> to conveniently get valid format</param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        Task<Stream> ConvertToAsync(Stream input, InputFormat format, CancellationToken cancellationToken = default);
     }
 
     public class AudioConverter : IAudioConverter
@@ -29,7 +37,8 @@ namespace Notify.Utils.Ffmpeg
             };
         }
 
-        public async Task<Stream> ConvertTo(Stream input, InputFormat format, CancellationToken cancellationToken = default)
+        /// <inheritdoc />
+        public async Task<Stream> ConvertToAsync(Stream input, InputFormat format, CancellationToken cancellationToken = default)
         {
             ArgumentNullException.ThrowIfNull(input);
             ArgumentNullException.ThrowIfNull(format);
