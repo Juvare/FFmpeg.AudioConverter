@@ -73,7 +73,9 @@ Describe 'ConvertToAsync' {
             | Should -Throw -PassThru
 
         $err.Exception.InnerException | Should -BeOfType Notify.Utils.Ffmpeg.ConversionFailedException
-        $err.Exception.InnerException.Message `
-            | Should -BeLike "ffmpeg exited with code 1`r`n*wav* invalid start code lets in RIFF header`r`npipe:0: Invalid data found when processing input`r`n"
+        $message = $err.Exception.InnerException.Message
+        $message | Should -Match 'ffmpeg exited with code 1'
+        $message | Should -Match 'invalid start code lets in RIFF header'
+        $message | Should -Match 'pipe:0: Invalid data found when processing input'
     }
 }
