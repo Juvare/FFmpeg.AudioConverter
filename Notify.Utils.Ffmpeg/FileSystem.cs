@@ -1,15 +1,10 @@
-ï»¿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Notify.Utils.Ffmpeg
+ï»¿namespace Notify.Utils.Ffmpeg
 {
     internal interface IFileSystem
     {
         string GetTempFileName();
         void DeleteFile(string path);
+        Task<byte[]> ReadAllBytesAsync(string path);
     }
 
     internal class FileSystem : IFileSystem
@@ -17,5 +12,7 @@ namespace Notify.Utils.Ffmpeg
         public void DeleteFile(string path) => File.Delete(path);
 
         public string GetTempFileName() => Path.GetTempFileName();
+
+        public Task<byte[]> ReadAllBytesAsync(string path) => File.ReadAllBytesAsync(path);
     }
 }

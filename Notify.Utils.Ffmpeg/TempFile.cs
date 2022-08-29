@@ -1,10 +1,4 @@
-ï»¿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Notify.Utils.Ffmpeg
+ï»¿namespace Notify.Utils.Ffmpeg
 {
     internal class TempFile : IDisposable
     {
@@ -16,6 +10,13 @@ namespace Notify.Utils.Ffmpeg
             this.fileSystem = fileSystem;
 
             tempFile = fileSystem.GetTempFileName();
+        }
+
+        public async Task CopyToAsync(Stream destination)
+        {
+            var bytes = await fileSystem.ReadAllBytesAsync(tempFile);
+
+            await destination.WriteAsync(bytes);
         }
 
         public void Dispose() => fileSystem.DeleteFile(tempFile);
