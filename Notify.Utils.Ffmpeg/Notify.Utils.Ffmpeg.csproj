@@ -16,10 +16,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="ffmpeg\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="..\ffmpeg\ffmpeg" Link="ffmpeg\ffmpeg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <PackagePath>ffmpeg\</PackagePath>
@@ -31,5 +27,12 @@
       <Pack>true</Pack>
     </None>
   </ItemGroup>
+
+  <PropertyGroup>
+    <Authors>T1</Authors>
+    <Title>FFMPEG wrapper for dotnet</Title>
+    <Description>FFMPEG wrapper for dotnet. Compiled with audio conversion only.</Description>
+    <PackageProjectUrl>TBD</PackageProjectUrl>
+  </PropertyGroup>
 
 </Project>
