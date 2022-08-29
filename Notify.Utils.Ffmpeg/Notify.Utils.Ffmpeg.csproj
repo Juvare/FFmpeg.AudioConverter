@@ -20,11 +20,13 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <PackagePath>ffmpeg\</PackagePath>
       <Pack>true</Pack>
+      <PackageCopyToOutput>true</PackageCopyToOutput>
     </None>
     <None Include="..\ffmpeg\ffmpeg.exe" Link="ffmpeg\ffmpeg.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <PackagePath>ffmpeg\</PackagePath>
       <Pack>true</Pack>
+      <PackageCopyToOutput>true</PackageCopyToOutput>
     </None>
   </ItemGroup>
 
