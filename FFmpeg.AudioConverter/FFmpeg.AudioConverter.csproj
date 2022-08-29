@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -9,7 +9,7 @@
 
   <ItemGroup>
     <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
-      <_Parameter1>Notify.Utils.Ffmpeg.Tests</_Parameter1>
+      <_Parameter1>FFmpeg.AudioConverter.Tests</_Parameter1>
     </AssemblyAttribute>
     <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
       <_Parameter1>DynamicProxyGenAssembly2</_Parameter1>
@@ -29,7 +29,7 @@
       <Pack>true</Pack>
       <PackageCopyToOutput>true</PackageCopyToOutput>
     </None>
-    <Content Include="Notify.Utils.Ffmpeg.targets" PackagePath="build/Notify.Utils.Ffmpeg.targets" />
+    <Content Include="FFmpeg.AudioConverter.targets" PackagePath="build/FFmpeg.AudioConverter.targets" />
   </ItemGroup>
 
   <PropertyGroup>

@@ -1,4 +1,4 @@
-namespace Notify.Utils.Ffmpeg.Tests
+namespace FFmpeg.AudioConverter.Tests
 {
     public class TempFileTests
     {

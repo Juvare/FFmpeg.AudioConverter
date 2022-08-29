@@ -1,9 +1,9 @@
 Describe 'ConvertToWavAsync' {
     BeforeAll {
-        dotnet build "./Notify.Utils.Ffmpeg/Notify.Utils.Ffmpeg.csproj"
-        Add-Type -Path "./Notify.Utils.Ffmpeg/bin/Debug/net6.0/Notify.Utils.Ffmpeg.dll"
+        dotnet build "./FFmpeg.AudioConverter/FFmpeg.AudioConverter.csproj"
+        Add-Type -Path "./FFmpeg.AudioConverter/bin/Debug/net6.0/FFmpeg.AudioConverter.dll"
 
-        $converter = [Notify.Utils.Ffmpeg.AudioConverter]::new()
+        $converter = [FFmpeg.AudioConverter.AudioConverter]::new()
 
         $converter | Should -Not -Be $null
 
@@ -11,7 +11,7 @@ Describe 'ConvertToWavAsync' {
             param([string]$Path, [string]$NameForFormat)
 
             $fileNameForFormat = if ($NameForFormat) { $NameForFormat } else { $Path }
-            $format = [Notify.Utils.Ffmpeg.InputFormat]::Parse($fileNameForFormat)
+            $format = [FFmpeg.AudioConverter.InputFormat]::Parse($fileNameForFormat)
             $stream = [System.IO.File]::OpenRead((Resolve-Path $Path))
 
             $output = $converter.ConvertToWavAsync($stream, $format).GetAwaiter().GetResult()
@@ -72,7 +72,7 @@ Describe 'ConvertToWavAsync' {
         $err = { Convert-File -Path './IntegrationTest/not-audio-file.txt' -NameForFormat "lier.wav" } `
             | Should -Throw -PassThru
 
-        $err.Exception.InnerException | Should -BeOfType Notify.Utils.Ffmpeg.ConversionFailedException
+        $err.Exception.InnerException | Should -BeOfType FFmpeg.AudioConverter.ConversionFailedException
         $message = $err.Exception.InnerException.Message
         $message | Should -Match 'ffmpeg exited with code 1'
         $message | Should -Match 'invalid start code lets in RIFF header'

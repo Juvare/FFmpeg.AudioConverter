@@ -1,4 +1,4 @@
-namespace Notify.Utils.Ffmpeg
+namespace FFmpeg.AudioConverter
 {
     public class InputFormat
     {

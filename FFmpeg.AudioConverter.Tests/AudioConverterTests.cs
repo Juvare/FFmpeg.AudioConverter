@@ -1,6 +1,8 @@
 using System.Diagnostics;
 
-namespace Notify.Utils.Ffmpeg.Tests
+using FFmpeg.AudioConverter;
+
+namespace FFmpeg.AudioConverter.Tests
 {
     public class AudioConverterTests
     {
@@ -190,7 +192,8 @@ namespace Notify.Utils.Ffmpeg.Tests
 
             await converter.ConvertToWavAsync(stream, InputFormat.WAV);
 
-            Received.InOrder(() => {
+            Received.InOrder(() =>
+            {
                 processWrapper.WaitForExitAsync();
                 fileSystem.ReadAllBytesAsync(Arg.Any<string>()); // used indirectly
             });

@@ -1,4 +1,4 @@
-# Notify Utils ffmpeg
+# FFmpeg Audio Converter
 
 FFmpeg wrapper for dotnet. Converts mp3 and wav files to wav (8000kHz 8bit mono, MuLaw)
 
@@ -20,7 +20,7 @@ Invoke-Pester -Path .\IntegrationTest\ -Show All
 ```
 
 ## Create nuget
-`dotnet pack --configuration Release ./Notify.Utils.Ffmpeg/Notify.Utils.Ffmpeg.csproj -p:Version=${NUGET_VERSION}`
+`dotnet pack --configuration Release ./FFmpeg.AudioConverter/FFmpeg.AudioConverter.csproj -p:Version=${NUGET_VERSION}`
 
 ## Works on
 * Windows

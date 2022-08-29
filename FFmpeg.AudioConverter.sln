@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32505.173
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Notify.Utils.Ffmpeg", "Notify.Utils.Ffmpeg\Notify.Utils.Ffmpeg.csproj", "{3FD1765B-616E-41BB-9F16-F1986749EE08}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FFmpeg.AudioConverter", "FFmpeg.AudioConverter\FFmpeg.AudioConverter.csproj", "{3FD1765B-616E-41BB-9F16-F1986749EE08}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{87F461DA-04CB-4B39-83C6-7FF5049D2973}"
 	ProjectSection(SolutionItems) = preProject
@@ -11,7 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notify.Utils.Ffmpeg.Tests", "Notify.Utils.Ffmpeg.Tests\Notify.Utils.Ffmpeg.Tests.csproj", "{CA972013-3F6D-4730-84F8-3139A78A0189}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FFmpeg.AudioConverter.Tests", "FFmpeg.AudioConverter.Tests\FFmpeg.AudioConverter.Tests.csproj", "{CA972013-3F6D-4730-84F8-3139A78A0189}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

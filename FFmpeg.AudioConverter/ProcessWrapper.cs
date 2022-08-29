@@ -1,6 +1,6 @@
 using System.Diagnostics;
 
-namespace Notify.Utils.Ffmpeg
+namespace FFmpeg.AudioConverter
 {
     internal interface IProcessWrapper : IDisposable
     {

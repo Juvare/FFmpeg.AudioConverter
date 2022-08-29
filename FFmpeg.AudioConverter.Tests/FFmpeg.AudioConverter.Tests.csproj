@@ -18,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Notify.Utils.Ffmpeg\Notify.Utils.Ffmpeg.csproj" />
+    <ProjectReference Include="..\FFmpeg.AudioConverter\FFmpeg.AudioConverter.csproj" />
   </ItemGroup>
 
 </Project>
