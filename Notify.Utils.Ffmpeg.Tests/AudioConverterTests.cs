@@ -1,5 +1,3 @@
-using NSubstitute;
-
 namespace Notify.Utils.Ffmpeg.Tests
 {
     public class AudioConverterTests
@@ -9,7 +7,8 @@ namespace Notify.Utils.Ffmpeg.Tests
         [SetUp]
         public void Setup()
         {
-            converter = new AudioConverter();
+            var fileSystem = Substitute.For<IFileSystem>();
+            converter = new AudioConverter(fileSystem);
         }
 
         [Test]

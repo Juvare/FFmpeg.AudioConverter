@@ -1,6 +1,4 @@
-ï»¿using NSubstitute;
-
-namespace Notify.Utils.Ffmpeg.Tests
+ï»¿namespace Notify.Utils.Ffmpeg.Tests
 {
     public class TempFileTests
     {
