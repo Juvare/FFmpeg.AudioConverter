@@ -1,3 +1,5 @@
+using NSubstitute;
+
 namespace Notify.Utils.Ffmpeg.Tests
 {
     public class AudioConverterTests
@@ -11,9 +13,21 @@ namespace Notify.Utils.Ffmpeg.Tests
         }
 
         [Test]
-        public void ConvertTo_ThrowsNotImplementedException()
+        public void ConvertTo_WhenProvidedWithNullStream_ThrowsArgumentNullException()
         {
-            Assert.Throws<NotImplementedException>(() => converter.ConvertTo(null));
+            var exception = Assert.Throws<ArgumentNullException>(() => converter.ConvertTo(null, InputFormat.MP3));
+
+            Assert.That(exception.Message, Is.EqualTo("Value cannot be null. (Parameter 'input')"));
+        }
+
+        [Test]
+        public void ConvertTo_WhenProvidedWithNullInputFormat_ThrowsArgumentNullException()
+        {
+            var stream = Substitute.For<Stream>();
+
+            var exception = Assert.Throws<ArgumentNullException>(() => converter.ConvertTo(stream, null));
+
+            Assert.That(exception.Message, Is.EqualTo("Value cannot be null. (Parameter 'format')"));
         }
     }
 }
