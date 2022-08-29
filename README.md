@@ -16,7 +16,7 @@ To run tests execute:
 ```powershell
 Install-Module -Name Pester -Force # if not already installed or old version
 Import-Module Pester
-Invoke-Pester -Show All
+Invoke-Pester -Path .\IntegrationTest\ -Show All
 ```
 
 ## Create nuget
