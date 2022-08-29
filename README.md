@@ -1,6 +1,6 @@
 # Notify Utils ffmpeg
 
-ffmpeg wrapper for dotnet
+FFmpeg wrapper for dotnet. Converts mp3 and wav files to wav (8000kHz 8bit mono, MuLaw)
 
 ## Building ffmpeg binaries for aplipe and windows
 `docker build --file ffmpeg.Dockerfile --output ffmpeg .` will compile ffmpeg for mp3 and wav conversion to wav files. Folder will contain following binaries:
