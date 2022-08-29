@@ -21,3 +21,8 @@ Invoke-Pester -Path .\IntegrationTest\ -Show All
 
 ## Create nuget
 `dotnet pack --configuration Release ./Notify.Utils.Ffmpeg/Notify.Utils.Ffmpeg.csproj -p:Version=${NUGET_VERSION}`
+
+## Works on
+* Windows
+* Alpine:3.15
+* Ubuntu if `apt-get install musl` is installed
