@@ -2,7 +2,7 @@
 {
     public class ConversionFailedException : Exception
     {
-        public ConversionFailedException(Exception innerException) : base("Conversion failed", innerException)
+        public ConversionFailedException(string message, Exception innerException) : base(message, innerException)
         {
 
         }

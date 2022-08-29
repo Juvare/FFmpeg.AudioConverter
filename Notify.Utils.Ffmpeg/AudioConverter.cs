@@ -60,7 +60,8 @@ namespace Notify.Utils.Ffmpeg
             }
             catch (Exception ex) // something more concrete should be used
             {
-                throw new ConversionFailedException(ex);
+                var error = await processWrapper.GetErrorAsync();
+                throw new ConversionFailedException(error, ex);
             }
             
 

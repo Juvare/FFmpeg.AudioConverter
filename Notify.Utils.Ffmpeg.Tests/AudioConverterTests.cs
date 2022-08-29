@@ -158,5 +158,17 @@ namespace Notify.Utils.Ffmpeg.Tests
 
             Assert.ThrowsAsync<ConversionFailedException>(() => converter.ConvertTo(Substitute.For<Stream>(), InputFormat.WAV));
         }
+
+        [Test]
+        public void ConvertTo_WhenFfmpegProcessFails_RetrievesErrorOuput()
+        {
+            processWrapper.GetErrorAsync().Returns(Task.FromResult("test error"));
+            processWrapper.WriteInputAsync(Arg.Any<Stream>(), Arg.Any<CancellationToken>()).Returns(Task.FromException(new Exception("test")));
+            var converter = new AudioConverter(fileSystem, PlatformID.Win32NT, () => processWrapper);
+
+            var exception = Assert.ThrowsAsync<ConversionFailedException>(() => converter.ConvertTo(Substitute.For<Stream>(), InputFormat.WAV));
+
+            Assert.That(exception.Message, Is.EqualTo("test error"));
+        }
     }
 }
