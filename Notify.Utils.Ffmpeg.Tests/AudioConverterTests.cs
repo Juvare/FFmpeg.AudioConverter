@@ -170,5 +170,18 @@ namespace Notify.Utils.Ffmpeg.Tests
 
             Assert.That(exception.Message, Is.EqualTo("test error"));
         }
+
+        [Test]
+        public async Task ConvertTo_WaitsForProcessToFinishBeforeCopyintTempFileContentToOutputStream()
+        {
+            var converter = new AudioConverter(fileSystem, PlatformID.Win32NT, () => processWrapper);
+
+            await converter.ConvertTo(new MemoryStream(), InputFormat.WAV);
+
+            Received.InOrder(() => {
+                processWrapper.WaitForExitAsync();
+                fileSystem.ReadAllBytesAsync(Arg.Any<string>()); // used indirectly
+            });
+        }
     }
 }

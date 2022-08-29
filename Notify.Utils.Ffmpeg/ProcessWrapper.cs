@@ -14,6 +14,8 @@ namespace Notify.Utils.Ffmpeg
         Task WriteInputAsync(Stream input, CancellationToken cancellationToken = default);
 
         Task<string> GetErrorAsync();
+
+        Task WaitForExitAsync();
     }
 
     internal class ProcessWrapper : IProcessWrapper
@@ -42,5 +44,7 @@ namespace Notify.Utils.Ffmpeg
                 return string.Empty;
             }
         }
+
+        public Task WaitForExitAsync() => process.WaitForExitAsync();
     }
 }

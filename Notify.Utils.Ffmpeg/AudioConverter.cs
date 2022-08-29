@@ -57,6 +57,10 @@ namespace Notify.Utils.Ffmpeg
             {
                 processWrapper.Start(ffmpegStartInfo);
                 await processWrapper.WriteInputAsync(input, cancellationToken);
+                await processWrapper.WaitForExitAsync();
+
+                var outputStream = new MemoryStream();
+                await destinationFile.CopyToAsync(outputStream);
             }
             catch (Exception ex) // something more concrete should be used
             {
