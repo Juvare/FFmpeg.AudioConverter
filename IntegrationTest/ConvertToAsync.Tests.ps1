@@ -8,18 +8,15 @@ Describe 'ConvertToAsync' {
         $converter | Should -Not -Be $null
 
         Function Convert-File {
-            param([string]$RelativePath)
+            param([string]$Path)
 
-            $path = Resolve-Path $RelativePath
-
-            $format = [Notify.Utils.Ffmpeg.InputFormat]::Parse($path)
-            $stream = [System.IO.File]::OpenRead($path)
+            $format = [Notify.Utils.Ffmpeg.InputFormat]::Parse((Resolve-Path $Path))
+            $stream = [System.IO.File]::OpenRead((Resolve-Path $Path))
 
             $output = $converter.ConvertToAsync($stream, $format).GetAwaiter().GetResult()
 
-            $destinationPath = (Resolve-Path ./IntegrationTest/).Path + "converted.wav"
-            Write-Host $destinationPath
-            $writer = [System.IO.File]::OpenWrite($destinationPath)
+            $outputFile = (Resolve-Path './IntegrationTest').Path + '/converted.wav'
+            $writer = [System.IO.File]::OpenWrite($outputFile)
             $output.WriteTo($writer)
 
             $writer.Dispose()
@@ -28,20 +25,16 @@ Describe 'ConvertToAsync' {
         }
 
         Function Get-OutputProbed {
-            $path = Resolve-Path ./IntegrationTest/converted.wav
-            ./ffmpeg/ffprobe.exe -hide_banner -v quiet -print_format json -show_format -show_streams $path ` | ConvertFrom-Json
+            ./ffmpeg/ffprobe.exe -hide_banner -v quiet -print_format json -show_format -show_streams ./IntegrationTest/converted.wav ` | ConvertFrom-Json
         }
     }
 
     BeforeEach {
-        $path = Resolve-Path ./IntegrationTest/converted.wav -ErrorAction SilentlyContinue
-        if ($path) {
-            Remove-Item -Path $path -ErrorAction SilentlyContinue
-        }
+        Remove-Item -Path ./IntegrationTest/converted.wav -ErrorAction SilentlyContinue
     }
 
     It 'Converts .mp3 file to 8K sample rate MuLaw wav file' {
-        Convert-File -RelativePath './IntegrationTest/file_example_MP3_2MG.mp3'
+        Convert-File -Path './IntegrationTest/file_example_MP3_2MG.mp3'
 
         $info = Get-OutputProbed
 
@@ -54,7 +47,7 @@ Describe 'ConvertToAsync' {
     }
 
     It 'Converts .wav file to 8K sample rate MuLaw wav file' {
-        Convert-File -RelativePath './IntegrationTest/file_example_WAV_1MG.wav'
+        Convert-File -Path './IntegrationTest/file_example_WAV_1MG.wav'
 
         $info = Get-OutputProbed
 
