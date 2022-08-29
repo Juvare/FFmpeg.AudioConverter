@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Notify.Utils.Ffmpeg
 {
-    internal interface IProcessWrapper
+    internal interface IProcessWrapper : IDisposable
     {
         void Start(ProcessStartInfo processStartInfo);
 
@@ -46,5 +46,7 @@ namespace Notify.Utils.Ffmpeg
         }
 
         public Task WaitForExitAsync() => process.WaitForExitAsync();
+
+        public void Dispose() => process?.Dispose();
     }
 }

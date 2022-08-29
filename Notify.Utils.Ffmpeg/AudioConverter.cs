@@ -51,7 +51,7 @@ namespace Notify.Utils.Ffmpeg
                 RedirectStandardError = true
             };
 
-            var processWrapper = processWrapperFactory();
+            using var processWrapper = processWrapperFactory();
 
             try
             {
