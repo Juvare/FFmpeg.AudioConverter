@@ -29,8 +29,8 @@
       <Pack>true</Pack>
       <PackageCopyToOutput>true</PackageCopyToOutput>
     </None>
+    <Content Include="Notify.Utils.Ffmpeg.targets" PackagePath="build/Notify.Utils.Ffmpeg.targets" />
   </ItemGroup>
-  <Content Include="Notify.Utils.Ffmpeg.targets" PackagePath="build/Notify.Utils.Ffmpeg.targets" />
 
   <PropertyGroup>
     <Authors>T1</Authors>
