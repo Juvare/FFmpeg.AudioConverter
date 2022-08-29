@@ -10,3 +10,11 @@ ffmpeg wrapper for dotnet
 * ffprobe.exe
 
 > probe files are usefull to inspect audio files.
+
+## Integration tests
+To run tests execute:
+```powershell
+Install-Module -Name Pester -Force # if not already installed or old version
+Import-Module Pester
+Invoke-Pester -Show All
+```
