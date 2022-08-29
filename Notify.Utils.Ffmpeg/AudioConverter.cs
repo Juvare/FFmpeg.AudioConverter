@@ -29,10 +29,11 @@ namespace Notify.Utils.Ffmpeg
         {
             this.fileSystem = fileSystem;
             this.processWrapperFactory = processWrapperFactory;
+            var assemblyDirectory = fileSystem.GetAssemblyLocation();
             ffmpegPath = platform switch
             {
-                PlatformID.Win32NT => "./ffmpeg/ffmpeg.exe",
-                PlatformID.Unix => "./ffmpeg/ffmpeg",
+                PlatformID.Win32NT => Path.Combine(assemblyDirectory, "ffmpeg/ffmpeg.exe"),
+                PlatformID.Unix => Path.Combine(assemblyDirectory, "ffmpeg/ffmpeg"),
                 _ => throw new PlatformNotSupportedException()
             };
         }

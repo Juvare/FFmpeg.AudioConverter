@@ -13,6 +13,7 @@ namespace Notify.Utils.Ffmpeg.Tests
         {
             fileSystem = Substitute.For<IFileSystem>();
             fileSystem.GetTempFileName().Returns("temp-output-file.tmp");
+            fileSystem.GetAssemblyLocation().Returns("test/location");
             processWrapper = Substitute.For<IProcessWrapper>();
             processStartInfo = null;
             processWrapper.When(pw => pw.Start(Arg.Any<ProcessStartInfo>())).Do(callInfo => processStartInfo = callInfo.Arg<ProcessStartInfo>());
@@ -46,7 +47,7 @@ namespace Notify.Utils.Ffmpeg.Tests
 
             await converter.ConvertToAsync(stream, InputFormat.WAV);
 
-            Assert.That(processStartInfo.FileName, Is.EqualTo("./ffmpeg/ffmpeg"));
+            Assert.That(processStartInfo.FileName, Is.EqualTo("test/location\\ffmpeg/ffmpeg"));
         }
 
         [Test]
@@ -57,7 +58,7 @@ namespace Notify.Utils.Ffmpeg.Tests
 
             await converter.ConvertToAsync(stream, InputFormat.WAV);
 
-            Assert.That(processStartInfo.FileName, Is.EqualTo("./ffmpeg/ffmpeg.exe"));
+            Assert.That(processStartInfo.FileName, Is.EqualTo("test/location\\ffmpeg/ffmpeg.exe"));
         }
 
         [Test]
