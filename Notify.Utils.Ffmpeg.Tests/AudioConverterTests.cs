@@ -47,7 +47,7 @@ namespace Notify.Utils.Ffmpeg.Tests
 
             await converter.ConvertToAsync(stream, InputFormat.WAV);
 
-            Assert.That(processStartInfo.FileName, Is.EqualTo("test/location\\ffmpeg/ffmpeg"));
+            Assert.That(processStartInfo.FileName, Is.EqualTo("test/location/ffmpeg/ffmpeg"));
         }
 
         [Test]
@@ -58,7 +58,7 @@ namespace Notify.Utils.Ffmpeg.Tests
 
             await converter.ConvertToAsync(stream, InputFormat.WAV);
 
-            Assert.That(processStartInfo.FileName, Is.EqualTo("test/location\\ffmpeg/ffmpeg.exe"));
+            Assert.That(processStartInfo.FileName, Is.EqualTo("test/location/ffmpeg/ffmpeg.exe"));
         }
 
         [Test]
@@ -195,4 +195,4 @@ namespace Notify.Utils.Ffmpeg.Tests
             Assert.That(output, Is.Not.Null);
         }
     }
-}
+}

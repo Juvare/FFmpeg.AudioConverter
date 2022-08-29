@@ -32,8 +32,8 @@ namespace Notify.Utils.Ffmpeg
             var assemblyDirectory = fileSystem.GetAssemblyLocation();
             ffmpegPath = platform switch
             {
-                PlatformID.Win32NT => Path.Combine(assemblyDirectory, "ffmpeg/ffmpeg.exe"),
-                PlatformID.Unix => Path.Combine(assemblyDirectory, "ffmpeg/ffmpeg"),
+                PlatformID.Win32NT => $"{assemblyDirectory}/ffmpeg/ffmpeg.exe",
+                PlatformID.Unix => $"{assemblyDirectory}/ffmpeg/ffmpeg",
                 _ => throw new PlatformNotSupportedException()
             };
         }
