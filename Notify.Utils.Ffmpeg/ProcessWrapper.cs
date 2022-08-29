@@ -23,9 +23,10 @@ namespace Notify.Utils.Ffmpeg
             process = Process.Start(processStartInfo);
         }
 
-        public Task WriteInputAsync(Stream input, CancellationToken cancellationToken = default)
+        public async Task WriteInputAsync(Stream input, CancellationToken cancellationToken = default)
         {
-            return input.CopyToAsync(process.StandardInput.BaseStream, cancellationToken);
+            await input.CopyToAsync(process.StandardInput.BaseStream, cancellationToken);
+            process.StandardInput.Close();
         }
     }
 }
