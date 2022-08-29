@@ -38,5 +38,15 @@
 
             Assert.That(stream.ToArray(), Is.EqualTo(new byte[] { 0x00, 0x01, 0x10 }));
         }
+
+        [Test]
+        public void ImplicitlyCastingToString_ReturnsTempFilePath()
+        {
+            using var tempFile = new TempFile(fileSystem);
+
+            string path = tempFile;
+
+            Assert.That(path, Is.EqualTo("unit-testing.tmp"));
+        }
     }
 }

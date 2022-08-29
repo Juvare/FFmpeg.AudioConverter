@@ -20,5 +20,7 @@
         }
 
         public void Dispose() => fileSystem.DeleteFile(tempFile);
+
+        public static implicit operator string(TempFile tempFile) => tempFile.tempFile;
     }
 }
