@@ -10,7 +10,7 @@ namespace Notify.Utils.Ffmpeg
 {
     public interface IAudioConverter
     {
-        Stream ConvertTo(Stream input, InputFormat format);
+        Task<Stream> ConvertTo(Stream input, InputFormat format, CancellationToken cancellationToken = default);
     }
 
     public class AudioConverter : IAudioConverter
@@ -35,7 +35,7 @@ namespace Notify.Utils.Ffmpeg
             };
         }
 
-        public Stream ConvertTo(Stream input, InputFormat format)
+        public async Task<Stream> ConvertTo(Stream input, InputFormat format, CancellationToken cancellationToken = default)
         {
             ArgumentNullException.ThrowIfNull(input);
             ArgumentNullException.ThrowIfNull(format);
@@ -53,6 +53,7 @@ namespace Notify.Utils.Ffmpeg
 
             var processWrapper = processWrapperFactory();
             processWrapper.Start(ffmpegStartInfo);
+            await processWrapper.WriteInput(input, cancellationToken);
 
             return null;
         }

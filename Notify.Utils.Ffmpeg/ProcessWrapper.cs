@@ -10,6 +10,8 @@ namespace Notify.Utils.Ffmpeg
     internal interface IProcessWrapper
     {
         void Start(ProcessStartInfo processStartInfo);
+
+        Task WriteInput(Stream input, CancellationToken cancellationToken = default);
     }
 
     internal class ProcessWrapper : IProcessWrapper
@@ -19,6 +21,11 @@ namespace Notify.Utils.Ffmpeg
         public void Start(ProcessStartInfo processStartInfo)
         {
             process = Process.Start(processStartInfo);
+        }
+
+        public Task WriteInput(Stream input, CancellationToken cancellationToken = default)
+        {
+            return input.CopyToAsync(process.StandardInput.BaseStream, cancellationToken);
         }
     }
 }
