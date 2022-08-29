@@ -183,5 +183,15 @@ namespace Notify.Utils.Ffmpeg.Tests
                 fileSystem.ReadAllBytesAsync(Arg.Any<string>()); // used indirectly
             });
         }
+
+        [Test]
+        public async Task ConvertTo_WhenAllGoesToPlan_ReturnsConvertedStream()
+        {
+            var converter = new AudioConverter(fileSystem, PlatformID.Win32NT, () => processWrapper);
+
+            var output = await converter.ConvertTo(new MemoryStream(), InputFormat.WAV);
+
+            Assert.That(output, Is.Not.Null);
+        }
     }
 }

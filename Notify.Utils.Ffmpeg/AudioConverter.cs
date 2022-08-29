@@ -1,10 +1,4 @@
-ï»¿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
+ï»¿using System.Diagnostics;
 
 namespace Notify.Utils.Ffmpeg
 {
@@ -61,15 +55,14 @@ namespace Notify.Utils.Ffmpeg
 
                 var outputStream = new MemoryStream();
                 await destinationFile.CopyToAsync(outputStream);
+
+                return outputStream;
             }
             catch (Exception ex) // something more concrete should be used
             {
                 var error = await processWrapper.GetErrorAsync();
                 throw new ConversionFailedException(error, ex);
             }
-            
-
-            return null;
         }
     }
 }
