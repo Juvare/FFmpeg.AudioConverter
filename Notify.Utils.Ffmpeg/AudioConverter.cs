@@ -9,12 +9,15 @@ namespace Notify.Utils.Ffmpeg
         /// Output stream disposal is relegated to consumer
         /// </summary>
         /// <param name="input">Input Audio stream</param>
-        /// <param name="format">Input audio format. Use <see cref="InputFormat.Parse(string)"/> to conveniently get valid format</param>
+        /// <param name="inputFormat">Input audio format. Use <see cref="InputFormat.Parse(string)"/> to conveniently get valid format</param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        Task<Stream> ConvertToAsync(Stream input, InputFormat format, CancellationToken cancellationToken = default);
+        Task<Stream> ConvertToWavAsync(Stream input, InputFormat inputFormat, CancellationToken cancellationToken = default);
     }
 
+    /// <summary>
+    /// ffmpeg wrapper for audio conversion
+    /// </summary>
     public class AudioConverter : IAudioConverter
     {
         private readonly IFileSystem fileSystem;
@@ -39,17 +42,17 @@ namespace Notify.Utils.Ffmpeg
         }
 
         /// <inheritdoc />
-        public async Task<Stream> ConvertToAsync(Stream input, InputFormat format, CancellationToken cancellationToken = default)
+        public async Task<Stream> ConvertToWavAsync(Stream input, InputFormat inputFormat, CancellationToken cancellationToken = default)
         {
             ArgumentNullException.ThrowIfNull(input);
-            ArgumentNullException.ThrowIfNull(format);
+            ArgumentNullException.ThrowIfNull(inputFormat);
 
             using var destinationFile = new TempFile(fileSystem);
 
             var ffmpegStartInfo = new ProcessStartInfo
             {
                 FileName = ffmpegPath,
-                Arguments = @$"-hide_banner -y -f {format} -i pipe:0 -acodec pcm_mulaw -ar 8000 -ac 1 -f wav ""{destinationFile}""",
+                Arguments = @$"-hide_banner -y -f {inputFormat} -i pipe:0 -acodec pcm_mulaw -ar 8000 -ac 1 -f wav ""{destinationFile}""",
                 RedirectStandardInput = true,
                 CreateNoWindow = false,
                 RedirectStandardError = true

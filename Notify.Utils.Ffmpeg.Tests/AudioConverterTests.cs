@@ -20,23 +20,23 @@ namespace Notify.Utils.Ffmpeg.Tests
         }
 
         [Test]
-        public void ConvertToAsync_WhenProvidedWithNullStream_ThrowsArgumentNullException()
+        public void ConvertWavToAsync_WhenProvidedWithNullStream_ThrowsArgumentNullException()
         {
             var converter = new AudioConverter(fileSystem, PlatformID.Unix, () => processWrapper);
-            var exception = Assert.ThrowsAsync<ArgumentNullException>(() => converter.ConvertToAsync(null, InputFormat.MP3));
+            var exception = Assert.ThrowsAsync<ArgumentNullException>(() => converter.ConvertToWavAsync(null, InputFormat.MP3));
 
             Assert.That(exception.Message, Is.EqualTo("Value cannot be null. (Parameter 'input')"));
         }
 
         [Test]
-        public void ConvertToAsync_WhenProvidedWithNullInputFormat_ThrowsArgumentNullException()
+        public void ConvertWavToAsync_WhenProvidedWithNullInputFormat_ThrowsArgumentNullException()
         {
             var converter = new AudioConverter(fileSystem, PlatformID.Unix, () => processWrapper);
             var stream = Substitute.For<Stream>();
 
-            var exception = Assert.ThrowsAsync<ArgumentNullException>(() => converter.ConvertToAsync(stream, null));
+            var exception = Assert.ThrowsAsync<ArgumentNullException>(() => converter.ConvertToWavAsync(stream, null));
 
-            Assert.That(exception.Message, Is.EqualTo("Value cannot be null. (Parameter 'format')"));
+            Assert.That(exception.Message, Is.EqualTo("Value cannot be null. (Parameter 'inputFormat')"));
         }
 
         [Test]
@@ -45,7 +45,7 @@ namespace Notify.Utils.Ffmpeg.Tests
             var converter = new AudioConverter(fileSystem, PlatformID.Unix, () => processWrapper);
             var stream = Substitute.For<Stream>();
 
-            await converter.ConvertToAsync(stream, InputFormat.WAV);
+            await converter.ConvertToWavAsync(stream, InputFormat.WAV);
 
             Assert.That(processStartInfo.FileName, Is.EqualTo("test/location/ffmpeg/ffmpeg"));
         }
@@ -56,7 +56,7 @@ namespace Notify.Utils.Ffmpeg.Tests
             var converter = new AudioConverter(fileSystem, PlatformID.Win32NT, () => processWrapper);
             var stream = Substitute.For<Stream>();
 
-            await converter.ConvertToAsync(stream, InputFormat.WAV);
+            await converter.ConvertToWavAsync(stream, InputFormat.WAV);
 
             Assert.That(processStartInfo.FileName, Is.EqualTo("test/location/ffmpeg/ffmpeg.exe"));
         }
@@ -68,41 +68,41 @@ namespace Notify.Utils.Ffmpeg.Tests
         }
 
         [Test]
-        public async Task ConvertToAsync_InstructsFfmpegToOverrideDestinationFile()
+        public async Task ConvertWavToAsync_InstructsFfmpegToOverrideDestinationFile()
         {
             var converter = new AudioConverter(fileSystem, PlatformID.Win32NT, () => processWrapper);
 
-            await converter.ConvertToAsync(Substitute.For<Stream>(), InputFormat.WAV);
+            await converter.ConvertToWavAsync(Substitute.For<Stream>(), InputFormat.WAV);
 
             Assert.That(processStartInfo.Arguments, Does.Contain("-y"));
         }
 
         [Test]
-        public async Task ConvertToAsync_PassesInputFormatToFfmpeg()
+        public async Task ConvertWavToAsync_PassesInputFormatToFfmpeg()
         {
             var converter = new AudioConverter(fileSystem, PlatformID.Win32NT, () => processWrapper);
 
-            await converter.ConvertToAsync(Substitute.For<Stream>(), InputFormat.WAV);
+            await converter.ConvertToWavAsync(Substitute.For<Stream>(), InputFormat.WAV);
 
             Assert.That(processStartInfo.Arguments, Does.Contain("-f wav -i"));
         }
 
         [Test]
-        public async Task ConvertToAsync_InstructsFfmpegToReadFromProcessInputStream()
+        public async Task ConvertWavToAsync_InstructsFfmpegToReadFromProcessInputStream()
         {
             var converter = new AudioConverter(fileSystem, PlatformID.Win32NT, () => processWrapper);
 
-            await converter.ConvertToAsync(Substitute.For<Stream>(), InputFormat.WAV);
+            await converter.ConvertToWavAsync(Substitute.For<Stream>(), InputFormat.WAV);
 
             Assert.That(processStartInfo.Arguments, Does.Contain("-i pipe:0"));
         }
 
         [Test]
-        public async Task ConvertToAsync_InstructsFfmpegToConvertFileTo8KSampleRateMonoMuLawWav()
+        public async Task ConvertWavToAsync_InstructsFfmpegToConvertFileTo8KSampleRateMonoMuLawWav()
         {
             var converter = new AudioConverter(fileSystem, PlatformID.Win32NT, () => processWrapper);
 
-            await converter.ConvertToAsync(Substitute.For<Stream>(), InputFormat.WAV);
+            await converter.ConvertToWavAsync(Substitute.For<Stream>(), InputFormat.WAV);
 
             Assert.That(processStartInfo.Arguments, Does.Contain("-acodec pcm_mulaw"), "Encoding must be MuLaw");
             Assert.That(processStartInfo.Arguments, Does.Contain("-ar 8000"), "Sample rate must be 8000");
@@ -111,74 +111,74 @@ namespace Notify.Utils.Ffmpeg.Tests
         }
 
         [Test]
-        public async Task ConvertToAsync_InstructsToOutputToTempFile()
+        public async Task ConvertWavToAsync_InstructsToOutputToTempFile()
         {
             var converter = new AudioConverter(fileSystem, PlatformID.Win32NT, () => processWrapper);
 
-            await converter.ConvertToAsync(Substitute.For<Stream>(), InputFormat.WAV);
+            await converter.ConvertToWavAsync(Substitute.For<Stream>(), InputFormat.WAV);
 
             Assert.That(processStartInfo.Arguments, Does.Contain("\"temp-output-file.tmp\""));
         }
 
         [Test]
-        public async Task ConvertToAsync_AsksToRedirectStandardInpuAndError()
+        public async Task ConvertWavToAsync_AsksToRedirectStandardInpuAndError()
         {
             var converter = new AudioConverter(fileSystem, PlatformID.Win32NT, () => processWrapper);
 
-            await converter.ConvertToAsync(Substitute.For<Stream>(), InputFormat.WAV);
+            await converter.ConvertToWavAsync(Substitute.For<Stream>(), InputFormat.WAV);
 
             Assert.That(processStartInfo.RedirectStandardError, Is.True);
             Assert.That(processStartInfo.RedirectStandardInput, Is.True);
         }
 
         [Test]
-        public async Task ConvertToAsync_WritesInputStreamToFfmpegProcess()
+        public async Task ConvertWavToAsync_WritesInputStreamToFfmpegProcess()
         {
             var converter = new AudioConverter(fileSystem, PlatformID.Win32NT, () => processWrapper);
             var stream = Substitute.For<Stream>();
 
-            await converter.ConvertToAsync(stream, InputFormat.WAV);
+            await converter.ConvertToWavAsync(stream, InputFormat.WAV);
 
             await processWrapper.Received().WriteInputAsync(stream, Arg.Any<CancellationToken>());
         }
 
         [Test]
-        public void ConvertToAsync_WhenStartingProcessFails_ThrowsConversionFailedException()
+        public void ConvertWavToAsync_WhenStartingProcessFails_ThrowsConversionFailedException()
         {
             processWrapper.When(p => p.Start(Arg.Any<ProcessStartInfo>())).Throw(new Exception("test"));
             var converter = new AudioConverter(fileSystem, PlatformID.Win32NT, () => processWrapper);
 
-            Assert.ThrowsAsync<ConversionFailedException>(() => converter.ConvertToAsync(Substitute.For<Stream>(), InputFormat.WAV));
+            Assert.ThrowsAsync<ConversionFailedException>(() => converter.ConvertToWavAsync(Substitute.For<Stream>(), InputFormat.WAV));
         }
 
         [Test]
-        public void ConvertToAsync_WhenWrittingToProcessFails_ThrowsConversionFailedException()
+        public void ConvertWavToAsync_WhenWrittingToProcessFails_ThrowsConversionFailedException()
         {
             processWrapper.WriteInputAsync(Arg.Any<Stream>(), Arg.Any<CancellationToken>()).Returns(Task.FromException(new Exception("test")));
             var converter = new AudioConverter(fileSystem, PlatformID.Win32NT, () => processWrapper);
 
-            Assert.ThrowsAsync<ConversionFailedException>(() => converter.ConvertToAsync(Substitute.For<Stream>(), InputFormat.WAV));
+            Assert.ThrowsAsync<ConversionFailedException>(() => converter.ConvertToWavAsync(Substitute.For<Stream>(), InputFormat.WAV));
         }
 
         [Test]
-        public void ConvertToAsync_WhenFfmpegProcessFails_RetrievesErrorOuput()
+        public void ConvertWavToAsync_WhenFfmpegProcessFails_RetrievesErrorOuput()
         {
             processWrapper.GetErrorAsync().Returns(Task.FromResult("test error"));
             processWrapper.WriteInputAsync(Arg.Any<Stream>(), Arg.Any<CancellationToken>()).Returns(Task.FromException(new Exception("test")));
             var converter = new AudioConverter(fileSystem, PlatformID.Win32NT, () => processWrapper);
 
-            var exception = Assert.ThrowsAsync<ConversionFailedException>(() => converter.ConvertToAsync(Substitute.For<Stream>(), InputFormat.WAV));
+            var exception = Assert.ThrowsAsync<ConversionFailedException>(() => converter.ConvertToWavAsync(Substitute.For<Stream>(), InputFormat.WAV));
 
             Assert.That(exception.Message, Is.EqualTo("test error"));
         }
 
         [Test]
-        public async Task ConvertToAsync_WaitsForProcessToFinishBeforeCopyintTempFileContentToOutputStream()
+        public async Task ConvertWavToAsync_WaitsForProcessToFinishBeforeCopyintTempFileContentToOutputStream()
         {
             var converter = new AudioConverter(fileSystem, PlatformID.Win32NT, () => processWrapper);
             using var stream = new MemoryStream();
 
-            await converter.ConvertToAsync(stream, InputFormat.WAV);
+            await converter.ConvertToWavAsync(stream, InputFormat.WAV);
 
             Received.InOrder(() => {
                 processWrapper.WaitForExitAsync();
@@ -187,23 +187,23 @@ namespace Notify.Utils.Ffmpeg.Tests
         }
 
         [Test]
-        public async Task ConvertToAsync_WhenAllGoesToPlan_ReturnsConvertedStream()
+        public async Task ConvertWavToAsync_WhenAllGoesToPlan_ReturnsConvertedStream()
         {
             var converter = new AudioConverter(fileSystem, PlatformID.Win32NT, () => processWrapper);
             using var stream = new MemoryStream();
 
-            var output = await converter.ConvertToAsync(stream, InputFormat.WAV);
+            var output = await converter.ConvertToWavAsync(stream, InputFormat.WAV);
 
             Assert.That(output, Is.Not.Null);
         }
 
         [Test]
-        public void ConvertToAsync_WhenProcessReturnsNotZeroExitCode_ThrowsConversionFailedException()
+        public void ConvertWavToAsync_WhenProcessReturnsNotZeroExitCode_ThrowsConversionFailedException()
         {
             processWrapper.WaitForExitAsync().Returns(Task.FromResult(404));
             var converter = new AudioConverter(fileSystem, PlatformID.Win32NT, () => processWrapper);
 
-            var exception = Assert.ThrowsAsync<ConversionFailedException>(() => converter.ConvertToAsync(Substitute.For<Stream>(), InputFormat.WAV));
+            var exception = Assert.ThrowsAsync<ConversionFailedException>(() => converter.ConvertToWavAsync(Substitute.For<Stream>(), InputFormat.WAV));
 
             Assert.That(exception.Message, Is.EqualTo("ffmpeg exited with code 404\r\n"));
         }

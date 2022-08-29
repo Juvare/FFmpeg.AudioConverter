@@ -1,4 +1,4 @@
-Describe 'ConvertToAsync' {
+Describe 'ConvertToWavAsync' {
     BeforeAll {
         dotnet build "./Notify.Utils.Ffmpeg/Notify.Utils.Ffmpeg.csproj"
         Add-Type -Path "./Notify.Utils.Ffmpeg/bin/Debug/net6.0/Notify.Utils.Ffmpeg.dll"
@@ -14,7 +14,7 @@ Describe 'ConvertToAsync' {
             $format = [Notify.Utils.Ffmpeg.InputFormat]::Parse($fileNameForFormat)
             $stream = [System.IO.File]::OpenRead((Resolve-Path $Path))
 
-            $output = $converter.ConvertToAsync($stream, $format).GetAwaiter().GetResult()
+            $output = $converter.ConvertToWavAsync($stream, $format).GetAwaiter().GetResult()
 
             $outputFile = (Resolve-Path './IntegrationTest').Path + '/converted.wav'
             $writer = [System.IO.File]::OpenWrite($outputFile)
