@@ -1,9 +1,4 @@
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Notify.Utils.Ffmpeg
 {
@@ -15,7 +10,7 @@ namespace Notify.Utils.Ffmpeg
 
         Task<string> GetErrorAsync();
 
-        Task WaitForExitAsync();
+        Task<int> WaitForExitAsync();
     }
 
     internal class ProcessWrapper : IProcessWrapper
@@ -45,7 +40,12 @@ namespace Notify.Utils.Ffmpeg
             }
         }
 
-        public Task WaitForExitAsync() => process.WaitForExitAsync();
+        public async Task<int> WaitForExitAsync()
+        {
+            await process.WaitForExitAsync();
+
+            return process.ExitCode;
+        }
 
         public void Dispose() => process?.Dispose();
     }

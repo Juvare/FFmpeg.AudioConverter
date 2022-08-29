@@ -61,14 +61,21 @@ namespace Notify.Utils.Ffmpeg
             {
                 processWrapper.Start(ffmpegStartInfo);
                 await processWrapper.WriteInputAsync(input, cancellationToken);
-                await processWrapper.WaitForExitAsync();
+
+                var exitCode = 0;
+                if ((exitCode = await processWrapper.WaitForExitAsync()) != 0)
+                {
+                    var error = await processWrapper.GetErrorAsync();
+                    var message = $"ffmpeg exited with code {exitCode}\r\n{error}";
+                    throw new ConversionFailedException(message);
+                }
 
                 var outputStream = new MemoryStream();
                 await destinationFile.CopyToAsync(outputStream);
 
                 return outputStream;
             }
-            catch (Exception ex) // something more concrete should be used
+            catch (Exception ex) when (ex is not ConversionFailedException) // something more concrete should be used
             {
                 var error = await processWrapper.GetErrorAsync();
                 throw new ConversionFailedException(error, ex);

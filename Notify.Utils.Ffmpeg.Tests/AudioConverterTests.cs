@@ -176,8 +176,9 @@ namespace Notify.Utils.Ffmpeg.Tests
         public async Task ConvertToAsync_WaitsForProcessToFinishBeforeCopyintTempFileContentToOutputStream()
         {
             var converter = new AudioConverter(fileSystem, PlatformID.Win32NT, () => processWrapper);
+            using var stream = new MemoryStream();
 
-            await converter.ConvertToAsync(new MemoryStream(), InputFormat.WAV);
+            await converter.ConvertToAsync(stream, InputFormat.WAV);
 
             Received.InOrder(() => {
                 processWrapper.WaitForExitAsync();
@@ -189,10 +190,22 @@ namespace Notify.Utils.Ffmpeg.Tests
         public async Task ConvertToAsync_WhenAllGoesToPlan_ReturnsConvertedStream()
         {
             var converter = new AudioConverter(fileSystem, PlatformID.Win32NT, () => processWrapper);
+            using var stream = new MemoryStream();
 
-            var output = await converter.ConvertToAsync(new MemoryStream(), InputFormat.WAV);
+            var output = await converter.ConvertToAsync(stream, InputFormat.WAV);
 
             Assert.That(output, Is.Not.Null);
+        }
+
+        [Test]
+        public void ConvertToAsync_WhenProcessReturnsNotZeroExitCode_ThrowsConversionFailedException()
+        {
+            processWrapper.WaitForExitAsync().Returns(Task.FromResult(404));
+            var converter = new AudioConverter(fileSystem, PlatformID.Win32NT, () => processWrapper);
+
+            var exception = Assert.ThrowsAsync<ConversionFailedException>(() => converter.ConvertToAsync(Substitute.For<Stream>(), InputFormat.WAV));
+
+            Assert.That(exception.Message, Is.EqualTo("ffmpeg exited with code 404\r\n"));
         }
     }
 }

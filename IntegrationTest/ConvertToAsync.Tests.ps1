@@ -8,9 +8,10 @@ Describe 'ConvertToAsync' {
         $converter | Should -Not -Be $null
 
         Function Convert-File {
-            param([string]$Path)
+            param([string]$Path, [string]$NameForFormat)
 
-            $format = [Notify.Utils.Ffmpeg.InputFormat]::Parse((Resolve-Path $Path))
+            $fileNameForFormat = if ($NameForFormat) { $NameForFormat } else { $Path }
+            $format = [Notify.Utils.Ffmpeg.InputFormat]::Parse($fileNameForFormat)
             $stream = [System.IO.File]::OpenRead((Resolve-Path $Path))
 
             $output = $converter.ConvertToAsync($stream, $format).GetAwaiter().GetResult()
@@ -65,5 +66,14 @@ Describe 'ConvertToAsync' {
         $info.streams[0].bits_per_sample    | Should -Be 8
         $info.format.format_name            | Should -Be "wav"
         $info.format.duration               | Should -Be "33.529625"
+    }
+
+    It "If not an audio file is provided, but masquareded as one should fail" {
+        $err = { Convert-File -Path './IntegrationTest/not-audio-file.txt' -NameForFormat "lier.wav" } `
+            | Should -Throw -PassThru
+
+        $err.Exception.InnerException | Should -BeOfType Notify.Utils.Ffmpeg.ConversionFailedException
+        $err.Exception.InnerException.Message `
+            | Should -BeLike "ffmpeg exited with code 1`r`n*wav* invalid start code lets in RIFF header`r`npipe:0: Invalid data found when processing input`r`n"
     }
 }
