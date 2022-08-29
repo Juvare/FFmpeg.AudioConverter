@@ -1,4 +1,4 @@
-ï»¿namespace Notify.Utils.Ffmpeg.Tests
+namespace Notify.Utils.Ffmpeg.Tests
 {
     public class InputFormatTests
     {

@@ -1,4 +1,4 @@
-ï»¿namespace Notify.Utils.Ffmpeg
+namespace Notify.Utils.Ffmpeg
 {
     internal interface IFileSystem
     {
