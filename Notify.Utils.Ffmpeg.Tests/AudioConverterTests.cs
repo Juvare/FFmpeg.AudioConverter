@@ -78,13 +78,23 @@ namespace Notify.Utils.Ffmpeg.Tests
         }
 
         [Test]
-        public async Task ConvertWavToAsync_PassesInputFormatToFfmpeg()
+        public async Task ConvertToAsync_ProvidedWithWavInputFormat_PassesItToFfmpeg()
         {
             var converter = new AudioConverter(fileSystem, PlatformID.Win32NT, () => processWrapper);
 
             await converter.ConvertToWavAsync(Substitute.For<Stream>(), InputFormat.WAV);
 
             Assert.That(processStartInfo.Arguments, Does.Contain("-f wav -i"));
+        }
+
+        [Test]
+        public async Task ConvertToAsync_ProvidedWithMp3InputFormat_PassesItToFfmpeg()
+        {
+            var converter = new AudioConverter(fileSystem, PlatformID.Win32NT, () => processWrapper);
+
+            await converter.ConvertToWavAsync(Substitute.For<Stream>(), InputFormat.MP3);
+
+            Assert.That(processStartInfo.Arguments, Does.Contain("-f mp3 -i"));
         }
 
         [Test]
