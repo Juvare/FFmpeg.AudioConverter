@@ -5,4 +5,7 @@
   <Target Name="CopyFfmpegFiles" BeforeTargets="Build">
     <Copy SourceFiles="@(FfmpegBinaries)" DestinationFolder="$(TargetDir)ffmpeg\" />
   </Target>
+  <Target Name="CopyFfmpegFilesPublish" AfterTargets="Publish">
+    <Copy SourceFiles="@(FfmpegBinaries)" DestinationFolder="$(PublishDir)ffmpeg\" />
+  </Target>
 </Project>
