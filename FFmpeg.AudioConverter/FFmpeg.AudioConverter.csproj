@@ -44,7 +44,7 @@
     <Authors>T1</Authors>
     <Title>FFMPEG wrapper for dotnet</Title>
     <Description>FFMPEG wrapper for dotnet. Compiled with audio conversion only.</Description>
-    <PackageProjectUrl>TBD</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/Juvare/FFmpeg.AudioConverter</PackageProjectUrl>
   </PropertyGroup>
 
 </Project>
