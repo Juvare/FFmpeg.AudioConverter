@@ -75,6 +75,7 @@ namespace FFmpeg.AudioConverter
 
                 var outputStream = new MemoryStream();
                 await destinationFile.CopyToAsync(outputStream);
+                outputStream.Position = 0;
 
                 return outputStream;
             }

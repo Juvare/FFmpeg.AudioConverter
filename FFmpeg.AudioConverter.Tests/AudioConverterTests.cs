@@ -1,7 +1,5 @@
 using System.Diagnostics;
 
-using FFmpeg.AudioConverter;
-
 namespace FFmpeg.AudioConverter.Tests
 {
     public class AudioConverterTests
@@ -219,6 +217,18 @@ namespace FFmpeg.AudioConverter.Tests
             var exception = Assert.ThrowsAsync<ConversionFailedException>(() => converter.ConvertToWavAsync(Substitute.For<Stream>(), InputFormat.WAV));
 
             Assert.That(exception.Message, Is.EqualTo("ffmpeg exited with code 404\r\n"));
+        }
+
+        [Test]
+        public async Task ConvertWavToAsync_WhenAllGoesToPlan_ReturnsStreamRewindedToBeginning()
+        {
+            fileSystem.ReadAllBytesAsync(Arg.Any<string>()).Returns(Task.FromResult(new byte[42]));
+            var converter = new AudioConverter(fileSystem, PlatformID.Win32NT, () => processWrapper);
+            using var stream = new MemoryStream();
+
+            var output = await converter.ConvertToWavAsync(stream, InputFormat.WAV);
+
+            Assert.That(output.Position, Is.EqualTo(0));
         }
     }
 }
