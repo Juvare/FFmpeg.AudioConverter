@@ -8,7 +8,7 @@
     <IsPackable>false</IsPackable>
 
     <SignAssembly>True</SignAssembly>
-    <AssemblyOriginatorKeyFile>C:\Projects\FFmpeg.AudioConverter\public.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>..\public.snk</AssemblyOriginatorKeyFile>
     <DelaySign>True</DelaySign>
   </PropertyGroup>
 
