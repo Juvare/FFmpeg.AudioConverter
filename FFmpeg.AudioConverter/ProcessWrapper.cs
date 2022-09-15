@@ -24,6 +24,8 @@ namespace FFmpeg.AudioConverter
 
         public async Task WriteInputAsync(Stream input, CancellationToken cancellationToken = default)
         {
+            ArgumentNullException.ThrowIfNull(process);
+            
             await input.CopyToAsync(process.StandardInput.BaseStream, cancellationToken);
             process.StandardInput.Close();
         }
@@ -32,6 +34,11 @@ namespace FFmpeg.AudioConverter
         {
             try
             {
+                if (process == null)
+                {
+                    return "";
+                }
+                
                 return await process.StandardError.ReadToEndAsync();
             }
             catch
@@ -42,6 +49,11 @@ namespace FFmpeg.AudioConverter
 
         public async Task<int> WaitForExitAsync()
         {
+            if (process == null)
+            {
+                return -1;
+            }
+            
             await process.WaitForExitAsync();
 
             return process.ExitCode;
