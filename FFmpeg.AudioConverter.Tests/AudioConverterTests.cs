@@ -4,9 +4,9 @@ namespace FFmpeg.AudioConverter.Tests
 {
     public class AudioConverterTests
     {
-        private IFileSystem fileSystem;
-        private IProcessWrapper processWrapper;
-        private ProcessStartInfo processStartInfo;
+        private IFileSystem fileSystem = null!;
+        private IProcessWrapper processWrapper = null!;
+        private ProcessStartInfo processStartInfo = null!;
 
         [SetUp]
         public void Setup()
@@ -15,7 +15,7 @@ namespace FFmpeg.AudioConverter.Tests
             fileSystem.GetTempFileName().Returns("temp-output-file.tmp");
             fileSystem.GetAssemblyLocation().Returns("test/location");
             processWrapper = Substitute.For<IProcessWrapper>();
-            processStartInfo = null;
+            processStartInfo = null!;
             processWrapper.When(pw => pw.Start(Arg.Any<ProcessStartInfo>())).Do(callInfo => processStartInfo = callInfo.Arg<ProcessStartInfo>());
         }
 
@@ -23,9 +23,9 @@ namespace FFmpeg.AudioConverter.Tests
         public void ConvertWavToAsync_WhenProvidedWithNullStream_ThrowsArgumentNullException()
         {
             var converter = new AudioConverter(fileSystem, PlatformID.Unix, () => processWrapper);
-            var exception = Assert.ThrowsAsync<ArgumentNullException>(() => converter.ConvertToWavAsync(null, InputFormat.MP3));
+            var exception = Assert.ThrowsAsync<ArgumentNullException>(() => converter.ConvertToWavAsync(null!, InputFormat.MP3));
 
-            Assert.That(exception.Message, Is.EqualTo("Value cannot be null. (Parameter 'input')"));
+            Assert.That(exception?.Message, Is.EqualTo("Value cannot be null. (Parameter 'input')"));
         }
 
         [Test]
@@ -34,9 +34,9 @@ namespace FFmpeg.AudioConverter.Tests
             var converter = new AudioConverter(fileSystem, PlatformID.Unix, () => processWrapper);
             var stream = Substitute.For<Stream>();
 
-            var exception = Assert.ThrowsAsync<ArgumentNullException>(() => converter.ConvertToWavAsync(stream, null));
+            var exception = Assert.ThrowsAsync<ArgumentNullException>(() => converter.ConvertToWavAsync(stream, null!));
 
-            Assert.That(exception.Message, Is.EqualTo("Value cannot be null. (Parameter 'inputFormat')"));
+            Assert.That(exception?.Message, Is.EqualTo("Value cannot be null. (Parameter 'inputFormat')"));
         }
 
         [Test]
@@ -64,6 +64,7 @@ namespace FFmpeg.AudioConverter.Tests
         [Test]
         public void Constructor_WhenWorkingInOtherEnvironment_ThrowsPlatformNotSupportedException()
         {
+            // ReSharper disable once ObjectCreationAsStatement
             Assert.Throws<PlatformNotSupportedException>(() => new AudioConverter(fileSystem, PlatformID.Other, () => processWrapper));
         }
 
@@ -131,7 +132,7 @@ namespace FFmpeg.AudioConverter.Tests
         }
 
         [Test]
-        public async Task ConvertWavToAsync_AsksToRedirectStandardInpuAndError()
+        public async Task ConvertWavToAsync_AsksToRedirectStandardInputAndError()
         {
             var converter = new AudioConverter(fileSystem, PlatformID.Win32NT, () => processWrapper);
 
@@ -162,7 +163,7 @@ namespace FFmpeg.AudioConverter.Tests
         }
 
         [Test]
-        public void ConvertWavToAsync_WhenWrittingToProcessFails_ThrowsConversionFailedException()
+        public void ConvertWavToAsync_WhenWritingToProcessFails_ThrowsConversionFailedException()
         {
             processWrapper.WriteInputAsync(Arg.Any<Stream>(), Arg.Any<CancellationToken>()).Returns(Task.FromException(new Exception("test")));
             var converter = new AudioConverter(fileSystem, PlatformID.Win32NT, () => processWrapper);
@@ -171,7 +172,7 @@ namespace FFmpeg.AudioConverter.Tests
         }
 
         [Test]
-        public void ConvertWavToAsync_WhenFfmpegProcessFails_RetrievesErrorOuput()
+        public void ConvertWavToAsync_WhenFfmpegProcessFails_RetrievesErrorOutput()
         {
             processWrapper.GetErrorAsync().Returns(Task.FromResult("test error"));
             processWrapper.WriteInputAsync(Arg.Any<Stream>(), Arg.Any<CancellationToken>()).Returns(Task.FromException(new Exception("test")));
@@ -179,11 +180,11 @@ namespace FFmpeg.AudioConverter.Tests
 
             var exception = Assert.ThrowsAsync<ConversionFailedException>(() => converter.ConvertToWavAsync(Substitute.For<Stream>(), InputFormat.WAV));
 
-            Assert.That(exception.Message, Is.EqualTo("test error"));
+            Assert.That(exception?.Message, Is.EqualTo("test error"));
         }
 
         [Test]
-        public async Task ConvertWavToAsync_WaitsForProcessToFinishBeforeCopyintTempFileContentToOutputStream()
+        public async Task ConvertWavToAsync_WaitsForProcessToFinishBeforeCopyingTempFileContentToOutputStream()
         {
             var converter = new AudioConverter(fileSystem, PlatformID.Win32NT, () => processWrapper);
             using var stream = new MemoryStream();
@@ -216,11 +217,11 @@ namespace FFmpeg.AudioConverter.Tests
 
             var exception = Assert.ThrowsAsync<ConversionFailedException>(() => converter.ConvertToWavAsync(Substitute.For<Stream>(), InputFormat.WAV));
 
-            Assert.That(exception.Message, Is.EqualTo("ffmpeg exited with code 404\r\n"));
+            Assert.That(exception?.Message, Is.EqualTo("ffmpeg exited with code 404\r\n"));
         }
 
         [Test]
-        public async Task ConvertWavToAsync_WhenAllGoesToPlan_ReturnsStreamRewindedToBeginning()
+        public async Task ConvertWavToAsync_WhenAllGoesToPlan_ReturnsStreamRewoundToBeginning()
         {
             fileSystem.ReadAllBytesAsync(Arg.Any<string>()).Returns(Task.FromResult(new byte[42]));
             var converter = new AudioConverter(fileSystem, PlatformID.Win32NT, () => processWrapper);

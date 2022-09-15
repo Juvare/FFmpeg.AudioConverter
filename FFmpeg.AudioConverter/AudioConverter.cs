@@ -2,6 +2,9 @@ using System.Diagnostics;
 
 namespace FFmpeg.AudioConverter
 {
+    /// <summary>
+    /// ffmpeg wrapper interface for audio conversion
+    /// </summary>
     public interface IAudioConverter
     {
         /// <summary>
@@ -22,8 +25,11 @@ namespace FFmpeg.AudioConverter
     {
         private readonly IFileSystem fileSystem;
         private readonly Func<IProcessWrapper> processWrapperFactory;
-        private string ffmpegPath;
+        private readonly string ffmpegPath;
 
+        /// <summary>
+        /// Constructs AudioConverter instance
+        /// </summary>
         public AudioConverter() : this(new FileSystem(), Environment.OSVersion.Platform, () => new ProcessWrapper())
         {
         }
@@ -65,7 +71,7 @@ namespace FFmpeg.AudioConverter
                 processWrapper.Start(ffmpegStartInfo);
                 await processWrapper.WriteInputAsync(input, cancellationToken);
 
-                var exitCode = 0;
+                int exitCode;
                 if ((exitCode = await processWrapper.WaitForExitAsync()) != 0)
                 {
                     var error = await processWrapper.GetErrorAsync();

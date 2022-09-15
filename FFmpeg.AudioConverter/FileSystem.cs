@@ -6,7 +6,7 @@ namespace FFmpeg.AudioConverter
         void DeleteFile(string path);
         Task<byte[]> ReadAllBytesAsync(string path);
 
-        string GetAssemblyLocation();
+        string? GetAssemblyLocation();
     }
 
     internal class FileSystem : IFileSystem
@@ -17,6 +17,6 @@ namespace FFmpeg.AudioConverter
 
         public Task<byte[]> ReadAllBytesAsync(string path) => File.ReadAllBytesAsync(path);
 
-        public string GetAssemblyLocation() => Path.GetDirectoryName(typeof(FileSystem).Assembly.Location);
+        public string? GetAssemblyLocation() => Path.GetDirectoryName(typeof(FileSystem).Assembly.Location);
     }
 }
