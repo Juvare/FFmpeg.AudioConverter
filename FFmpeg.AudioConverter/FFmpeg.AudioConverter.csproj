@@ -10,7 +10,7 @@
   <PropertyGroup>
     <SignAssembly>True</SignAssembly>
     <DelaySign>True</DelaySign>
-    <AssemblyOriginatorKeyFile>C:\Projects\FFmpeg.AudioConverter\public.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>..\public.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
   <ItemGroup>
