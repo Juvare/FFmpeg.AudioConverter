@@ -1,4 +1,4 @@
-ï»¿FROM ubuntu:22.04 AS ffmpeg-ubuntu
+FROM ubuntu:22.04 AS ffmpeg-ubuntu
 WORKDIR /tmp/ffmpeg
 
 RUN apt-get update
