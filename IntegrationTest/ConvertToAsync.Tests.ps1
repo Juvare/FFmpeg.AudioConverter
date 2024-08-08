@@ -1,7 +1,7 @@
 Describe 'ConvertToWavAsync' {
     BeforeAll {
         dotnet build "./FFmpeg.AudioConverter/FFmpeg.AudioConverter.csproj"
-        Add-Type -Path "./FFmpeg.AudioConverter/bin/Debug/net6.0/FFmpeg.AudioConverter.dll"
+        Add-Type -Path "./FFmpeg.AudioConverter/bin/Debug/net8.0/FFmpeg.AudioConverter.dll"
 
         $converter = [FFmpeg.AudioConverter.AudioConverter]::new()
 

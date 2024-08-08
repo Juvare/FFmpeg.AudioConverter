@@ -16,7 +16,7 @@ Describe 'Package install' {
         dotnet add ./IntegrationTest/TestProject/TestProject.csproj package -s ./IntegrationTest/nugets/ FFmpeg.AudioConverter
         dotnet build ./IntegrationTest/TestProject/TestProject.csproj
 
-        Test-Path ./IntegrationTest/TestProject/bin/Debug/net6.0/ffmpeg/ffmpeg     | Should -Be $true
-        Test-Path ./IntegrationTest/TestProject/bin/Debug/net6.0/ffmpeg/ffmpeg.exe | Should -Be $true
+        Test-Path ./IntegrationTest/TestProject/bin/Debug/net8.0/ffmpeg/ffmpeg     | Should -Be $true
+        Test-Path ./IntegrationTest/TestProject/bin/Debug/net8.0/ffmpeg/ffmpeg.exe | Should -Be $true
     }
 }

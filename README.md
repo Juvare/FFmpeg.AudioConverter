@@ -44,6 +44,6 @@ Invoke-Pester -Path .\IntegrationTest\ -Show All
 ## Create nuget
 ```powershell
 dotnet build --configuration Release ./FFmpeg.AudioConverter/FFmpeg.AudioConverter.csproj -p:Version=${NUGET_VERSION}
-sn -R ./FFmpeg.AudioConverter/bin/Release/net6.0/FFmpeg.AudioConverter.dll <path to .snk>
+sn -R ./FFmpeg.AudioConverter/bin/Release/net8.0/FFmpeg.AudioConverter.dll <path to .snk>
 dotnet pack --no-build --configuration Release ./FFmpeg.AudioConverter/FFmpeg.AudioConverter.csproj -p:Version=${NUGET_VERSION}
 ```
