@@ -4,7 +4,7 @@ WORKDIR /tmp/ffmpeg
 RUN apt-get update
 RUN apt-get -y install make nasm gcc mingw-w64 wget bzip2
 
-ARG FFMPEG_VERSION=5.0.1
+ARG FFMPEG_VERSION=7.1.1
 RUN wget -O- http://ffmpeg.org/releases/ffmpeg-${FFMPEG_VERSION}.tar.bz2 > ffmpeg.tar.bz2
 RUN tar -jx --strip-components=1 -f ffmpeg.tar.bz2
 
@@ -55,7 +55,7 @@ RUN     buildDeps="autoconf \
                    zlib-dev" && \
         apk add --no-cache --update ${buildDeps}
 
-ARG FFMPEG_VERSION=5.0.1
+ARG FFMPEG_VERSION=7.1.1
 RUN wget -O- http://ffmpeg.org/releases/ffmpeg-${FFMPEG_VERSION}.tar.bz2 > ffmpeg.tar.bz2
 RUN tar -jx --strip-components=1 -f ffmpeg.tar.bz2
 RUN ./configure \
