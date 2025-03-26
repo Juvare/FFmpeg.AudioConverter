@@ -68,7 +68,9 @@ RUN ./configure \
     --enable-demuxer=mp3,wav \
     --enable-muxer=wav \
     --enable-filter=aresample \
-    --enable-protocol=file,pipe
+    --enable-protocol=file,pipe \
+    --enable-pic \
+    --extra-ldflags="-static"
 RUN make
 
 FROM scratch AS export-stage
