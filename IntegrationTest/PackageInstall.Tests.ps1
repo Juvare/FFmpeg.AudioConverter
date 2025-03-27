@@ -12,7 +12,7 @@ Describe 'Package install' {
 
     It 'Copies ffmpeg binaries to bin dir' {
         #mkdir ./IntegrationTest/TestProject
-        dotnet new console -o ./IntegrationTest/TestProject --force
+        dotnet new console --framework net6.0 -o ./IntegrationTest/TestProject --force
         dotnet add ./IntegrationTest/TestProject/TestProject.csproj package -s ./IntegrationTest/nugets/ FFmpeg.AudioConverter
         dotnet build ./IntegrationTest/TestProject/TestProject.csproj
 

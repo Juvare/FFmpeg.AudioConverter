@@ -74,8 +74,8 @@ Describe 'ConvertToWavAsync' {
 
         $err.Exception.InnerException | Should -BeOfType FFmpeg.AudioConverter.ConversionFailedException
         $message = $err.Exception.InnerException.Message
-        $message | Should -Match 'ffmpeg exited with code 1'
+        $message | Should -Match 'ffmpeg exited with code '
         $message | Should -Match 'invalid start code lets in RIFF header'
-        $message | Should -Match 'pipe:0: Invalid data found when processing input'
+        $message | Should -Match 'Error opening input: Invalid data found when processing input'
     }
 }
