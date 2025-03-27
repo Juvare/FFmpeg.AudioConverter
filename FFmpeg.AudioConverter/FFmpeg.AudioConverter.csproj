@@ -46,6 +46,7 @@
     <Description>FFMPEG wrapper for dotnet. Compiled with audio conversion only.</Description>
     <PackageProjectUrl>https://github.com/Juvare/FFmpeg.AudioConverter</PackageProjectUrl>
     <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
   <ItemGroup>
     <None Include="../README.md" Pack="true" PackagePath="\" />
