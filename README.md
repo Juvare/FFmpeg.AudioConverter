@@ -21,8 +21,8 @@ await outputStream.FlushAsync();
 
 ## Works on
 * Windows
-* Alpine:3.15
-* Ubuntu if `apt-get install musl` is installed
+* Alpine
+* Ubuntu
 
 ## Building ffmpeg binaries for alpine and windows
 `docker build --file ffmpeg.Dockerfile --output ffmpeg .` will compile ffmpeg for mp3 and wav conversion to wav files. Folder will contain following binaries:
@@ -31,7 +31,7 @@ await outputStream.FlushAsync();
 * ffmpeg.exe
 * ffprobe.exe
 
-> probe files are usefull to inspect audio files.
+> probe files are useful to inspect audio files.
 
 ## Integration tests
 To run tests execute:
